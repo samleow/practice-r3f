@@ -4,6 +4,8 @@
   "homepage": "https://samleow.github.io/practice-r3f",
   "private": true,
   "dependencies": {
+    "@react-three/cannon": "^6.5.2",
+    "@react-three/drei": "^9.66.0",
     "@react-three/fiber": "^8.12.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
