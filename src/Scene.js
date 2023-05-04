@@ -1,6 +1,7 @@
 
 import { Canvas } from '@react-three/fiber'
 import { Physics, usePlane, useBox } from '@react-three/cannon'
+import { useState } from 'react'
 
 function Plane(props) {
     const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }))
@@ -23,17 +24,34 @@ function Cube(props) {
 }
 
 export function Scene() {
+
+    const [pageOn, togglePage] = useState(false);
+
+    function toggleButton() {
+        togglePage(!pageOn);
+    }
+
     return (
-        <Canvas shadows dpr={[1, 2]} gl={{ alpha: false }} camera={{ position: [-1, 5, 5], fov: 45 }}>
-            <color attach="background" args={['lightblue']} />
-            <ambientLight />
-            <directionalLight position={[10, 10, 10]} castShadow shadow-mapSize={[2048, 2048]} />
-            <Physics>
-                <Plane position={[0, -2.5, 0]} />
-                <Cube position={[0.1, 5, 0]} />
-                <Cube position={[0, 10, -1]} />
-                <Cube position={[0, 20, -2]} />
-            </Physics>
-        </Canvas>
+        <>
+            <div style={{height: pageOn?'20%':'100%'}}>
+                <Canvas shadows dpr={[1, 2]} gl={{ alpha: false }} camera={{ position: [-1, 5, 5], fov: 45 }}>
+                    <color attach="background" args={['cornflowerblue']} />
+                    <ambientLight />
+                    <directionalLight position={[10, 10, 10]} castShadow shadow-mapSize={[2048, 2048]} />
+                    <Physics>
+                        <Plane position={[0, -2.5, 0]} />
+                        <Cube position={[0.1, 5, 0]} />
+                        <Cube position={[0, 10, -1]} />
+                        <Cube position={[0, 20, -2]} />
+                    </Physics>
+                </Canvas>
+            </div>
+            <button style={{position:'absolute', top: 0, left: 0, pointerEvents: 'all'}}
+            onClick={() => {
+                toggleButton();
+            }}>
+                {pageOn?"Hide page":"See page"}
+            </button>
+        </>
     )
 }
