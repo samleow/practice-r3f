@@ -1,7 +1,11 @@
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import { Canvas } from '@react-three/fiber'
 import { Physics, usePlane, useBox } from '@react-three/cannon'
 import './index.css'
+import { createRoot } from 'react-dom/client';
+
+const domNode = document.getElementById('root');
+const root = createRoot(domNode);
 
 function Plane(props) {
   const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }))
@@ -23,7 +27,7 @@ function Cube(props) {
   )
 }
 
-ReactDOM.render(
+root.render(
   <Canvas shadows dpr={[1, 2]} gl={{ alpha: false }} camera={{ position: [-1, 5, 5], fov: 45 }}>
     <color attach="background" args={['lightblue']} />
     <ambientLight />
@@ -34,6 +38,5 @@ ReactDOM.render(
       <Cube position={[0, 10, -1]} />
       <Cube position={[0, 20, -2]} />
     </Physics>
-  </Canvas>,
-  document.getElementById('root')
+  </Canvas>
 )
