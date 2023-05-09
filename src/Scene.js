@@ -1,7 +1,9 @@
 
-import { Canvas } from '@react-three/fiber'
+import { useThree, useFrame } from '@react-three/fiber'
 import { Physics, usePlane, useBox } from '@react-three/cannon'
-import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { LayoutOrthographicCamera, MotionCanvas, motion as motion3d } from "framer-motion-3d"
+import { Stats } from "@react-three/drei"
 
 function Plane(props) {
     const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }))
@@ -23,35 +25,30 @@ function Cube(props) {
     )
 }
 
-export function Scene() {
+function UpdateCamera({ pageOn }) {
+    const three = useThree();
+    useFrame(() => three.camera.lookAt(3, 0, 0));
+}
 
-    const [pageOn, togglePage] = useState(false);
-
-    function toggleButton() {
-        togglePage(!pageOn);
-    }
+export function Scene({ pageOn }) {
 
     return (
-        <>
-            <div style={{height: pageOn?'20%':'100%'}}>
-                <Canvas shadows dpr={[1, 2]} gl={{ alpha: false }} camera={{ position: [-1, 5, 5], fov: 45 }}>
-                    <color attach="background" args={['cornflowerblue']} />
-                    <ambientLight />
-                    <directionalLight position={[10, 10, 10]} castShadow shadow-mapSize={[2048, 2048]} />
-                    <Physics>
-                        <Plane position={[0, -2.5, 0]} />
-                        <Cube position={[0.1, 5, 0]} />
-                        <Cube position={[0, 10, -1]} />
-                        <Cube position={[0, 20, -2]} />
-                    </Physics>
-                </Canvas>
-            </div>
-            <button style={{position:'absolute', top: 0, left: 0, pointerEvents: 'all'}}
-            onClick={() => {
-                toggleButton();
-            }}>
-                {pageOn?"Hide page":"See page"}
-            </button>
-        </>
+        <motion.div className='container' layout>
+            <MotionCanvas shadows dpr={[1, 2]} gl={{ alpha: false }} >
+                {/* For debugging */}
+                {/* <Stats /> */}
+                <color attach="background" args={['cornflowerblue']} />
+                <LayoutOrthographicCamera position={[10,7,5]} zoom={150}/>
+                <ambientLight />
+                <directionalLight position={[10, 6, 10]} castShadow shadow-mapSize={[2048, 2048]} />
+                <Physics>
+                    <Plane position={[0, -2.5, 0]} />
+                    <Cube position={[0.1, 5, 0]} />
+                    <Cube position={[0, 10, -1]} />
+                    <Cube position={[0, 20, -2]} />
+                </Physics>
+                <UpdateCamera pageOn={pageOn}/>
+            </MotionCanvas>
+        </motion.div>
     )
 }
