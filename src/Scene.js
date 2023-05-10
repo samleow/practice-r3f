@@ -33,7 +33,9 @@ function UpdateCamera({ pageOn }) {
 export function Scene({ pageOn }) {
 
     return (
-        <motion.div className='container' layout>
+        <motion.div layout style={{ height: pageOn?'20%':'100%' }}
+        transition={{ duration: 0.4 }}
+        >
             <MotionCanvas shadows dpr={[1, 2]} gl={{ alpha: false }} >
                 {/* For debugging */}
                 {/* <Stats /> */}

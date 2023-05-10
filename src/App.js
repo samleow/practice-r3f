@@ -12,9 +12,10 @@ export function App() {
     }
 
     return (
+        // left page-on property for future uses
         <div page-on={pageOn?"true":"false"} style={{width: '100%', height: '100%'}}>
             <Scene pageOn={pageOn} />
-            <Homepage />
+            <Homepage pageOn={pageOn}/>
             <button style={{position:'absolute', top: 20, right: 20, pointerEvents: 'all'}}
             onClick={() => {
                 toggleButton();
